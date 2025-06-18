@@ -9,12 +9,6 @@ from pathlib import Path
 from collections import defaultdict 
 from sklearn.manifold import MDS
 import os
-# print("test")
-# print(os.getcwd()) #os.getcwd()
-# # exit()
-# os.chdir("/Users/giraffecolor/Documents/code/obsidian/luddy/shiny")
-# # os.chdir("C:/Users/panyanl/Documents/luddy/shiny")
-# print(os.getcwd())
 
 pi2area_df = pd.read_csv(Path("pi2area.csv"))
 pi2area_dict = {}

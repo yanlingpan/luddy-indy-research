@@ -2,4 +2,4 @@ shiny
 shinywidgets
 plotly
 pandas
-sklearn
+scikit-learn
