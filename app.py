@@ -37,27 +37,6 @@ embedding_df = pd.DataFrame(embedding, columns=["x", "y"])
 embedding_df = (embedding_df-embedding_df.min())/(embedding_df.max()-embedding_df.min())
 embedding_df = pd.concat([embedding_df, area2cat_df[['area', 'area_short', 'category', 'size']]], axis=1)
 
-# app_ui = ui.page_fluid(
-#   # triple quotes define multi-line string literals, allowing multi-lines CSS
-#   ui.tags.style(""" 
-#       .plotly-graph-div {
-#         height: 100% !important;
-#         width: 100% !important;
-#       }
-#       #bubble {
-#         height: 90vw !important;
-#         width: 100vw !important;
-#       }
-#     """), 
-#     ui.div(
-#       output_widget("bubble"),
-#       id="bubble",
-#       # style="height: 100vh; width: 100vw;"
-#     ),
-#   "click bubble to see PIs",
-#   ui.output_ui("click_info")
-# )
-
 app_ui = ui.page_fluid(
     ui.tags.style("""
         .main-row { 
