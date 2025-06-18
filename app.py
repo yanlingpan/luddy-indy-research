@@ -125,7 +125,7 @@ def server(input, output, session):
             size=embedding_df["size"],
             sizemode='area',
             sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
-            opacity=0.05,
+            opacity=0.1,#0.05,
             color=marker_colors
         ),
         text=embedding_df["area_short"],
