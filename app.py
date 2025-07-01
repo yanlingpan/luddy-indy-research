@@ -9,11 +9,12 @@ from collections import defaultdict
 from sklearn.manifold import MDS
 
 # bubble plot data
-df = pd.read_csv(Path("area2category_score.csv"), index_col=["area_shortname", "area"])
+df = pd.read_csv(Path("area2category_score.csv"), index_col=["campus","area_shortname", "area"])
 df_norm = df.div(df.sum(axis=1), axis=0)
 df['category'] = df.idxmax(axis=1)
 df['size'] = 60 # bubble size
 df = df.reset_index()
+df['area_campus'] = df['area_shortname'] + "<br>(" + df['campus'] + ")"
 
 # embed score w/ MDS
 mds_seed = random.randint(0, 10000)
@@ -21,7 +22,7 @@ print(f"mds random seed: {mds_seed}")
 embedding = MDS(n_components=2, n_init=4, random_state=mds_seed).fit_transform(df_norm)
 embedding_df = pd.DataFrame(embedding, columns=["x", "y"])
 embedding_df = (embedding_df-embedding_df.min())/(embedding_df.max()-embedding_df.min())
-embedding_df = pd.concat([embedding_df, df[['area', 'area_shortname', 'category', 'size']]], axis=1)
+embedding_df = pd.concat([embedding_df, df[['area_campus', 'area', 'area_shortname', 'category', 'size']]], axis=1)
 
 # extra info: area pis & links
 area2pi2url = pd.read_csv(Path("area2pi2url.csv"))
@@ -97,7 +98,8 @@ def server(input, output, session):
             opacity=0.1,#0.05,
             color=marker_colors
         ),
-        text=embedding_df["area_shortname"],
+        # text=embedding_df["area_shortname"],
+        text=embedding_df["area_campus"],
         hovertext=hover_text,
         hoverinfo="text",
         showlegend=False,
