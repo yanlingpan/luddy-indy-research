@@ -4,12 +4,14 @@ from shinywidgets import output_widget, render_plotly
 
 import random
 import pandas as pd
+import seaborn as sns
 from pathlib import Path
 from collections import defaultdict 
 from sklearn.manifold import MDS
 
 # bubble plot data
-df = pd.read_csv(Path("area2category_score.csv"), index_col=["campus","area_shortname", "area"])
+# df = pd.read_csv(Path("area2category_score_iui.csv"), index_col=["campus", "area_shortname", "area"])
+df = pd.read_csv(Path("area2category_score_campus.csv"), index_col=["campus", "area_shortname", "area"])
 df_norm = df.div(df.sum(axis=1), axis=0)
 df['category'] = df.idxmax(axis=1)
 df['size'] = 60 # bubble size
@@ -83,6 +85,7 @@ def server(input, output, session):
     import plotly.graph_objects as go
     
     colors = ["blue", "green", "red", "orange", "purple", "gray", "brown"]
+    colors = sns.color_palette("tab10", n_colors=10).as_hex()
     marker_colors = embedding_df["category"].map(dict(zip(embedding_df["category"].unique(), colors)))
     hover_text = embedding_df["area"]
     

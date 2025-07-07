@@ -1,0 +1,48 @@
+﻿campus,area_shortname,area,Visual Computing,AI,Bioinformatics ,HCI,Community Informatics,Medical & BME,CS Theory,Systems & Infrastructure,Cybersecurity,Engineering
+IUI,Viz,Visualization & visual analytics,3,1,0,1,0,1,0,0,0,0
+IUI,Med. img. CV,Medical imaging & Computer Vision,1,3,0,0,0,2,0,0,0,0
+IUI,AI brain,AI in brain data analytics,0,4,1,0,0,1,0,0,0,0
+IUI,Bioinfo.,Bioinformatics,0,1,3,0,0,1,0,0,0,0
+IUI,NLP,Natural language processing,0,4,0,1,0,1,0,0,0,0
+IUI,HCI accessibility,HCI for accessibility,0,0,0,4,1,0,0,0,0,0
+IUI,HCI health,HCI for healthcare,0,0,0,4,1,1,0,0,0,0
+IUI,AI health,AI for healthcare,0,5,0,0,1,1,0,0,0,0
+IUI,Trusted AI,Trusted AI,0,7,0,0,1,1,0,0,0,0
+IUI,ML,Machine learning & data mining,0,4,0,0,0,0,1,0,0,0
+IUI,Data infra.,Data infrastructure,0,1,0,0,1,0,0,3,0,0
+IUI,Cybersecu.,Cybersecurity & privacy,0,1,0,0,0,1,1,0,3,0
+IUI,Education,Education research,0,1,0,1,3,0,0,0,0,0
+IUI,Library,Library & learning,0,1,0,0,4,0,0,0,0,0
+IUI,Software,Software engineering,0,0,0,0,0,0,0,3,0,1
+IUI,VRXR,VR for Cognitive Rehabilitation & Social Skill Development & digital media,4,0,0,2,0,2,0,1,0,0
+IUI,INDI,Integrated Nanosystems Development Institute (INDI),0,0,0,0,0,4,0,0,0,2
+IUI,Polis,The Polis Center,0,0,0,0,3,0,0,1,0,0
+IUB,Trusted AI,Trusted AI,0,6,0,0,1,0,0,1,0,1
+IUB,ML/DM,Machine learning and data mining ,0,5,0,0,0,0,2,1,0,1
+IUB,NLP,Natural language processing,0,5,0,0,0,0,2,1,0,0
+IUB,Med Im/vis,Medical imaging and computer vision,1,2,0,0,0,2,0,0,0,1
+IUB,Cognitive,Cognitive models,1,3,0,1,1,1,1,0,0,0
+IUB,Comp Neuro,Computational neuroscience,0,4,0,0,0,3,1,0,0,0
+IUB,AI Appl,AI Applications,0,4,0,0,0,2,1,2,0,1
+IUB,Bioinfo,Bioinformatics,0,1,4,0,0,2,1,0,0,0
+IUB,"Lib, arch","Library, archives, learning",0,1,0,0,7,0,1,0,0,0
+IUB,Vir her,Virtual Heritage,0,1,0,0,6,0,0,2,0,0
+IUB,Network,"Network Science, information dissemination",0,0,0,0,4,0,2,2,0,1
+IUB,Education,Education Research,0,0,0,0,6,0,2,2,0,0
+IUB,Biomed ,Biomedical imaging,1,0,0,0,0,4,0,1,0,2
+IUB,Algo,Algorithms,0,1,0,0,0,0,5,0,0,0
+IUB,DS,Big data,0,3,0,0,0,0,2,2,0,2
+IUB,Quantum,Quantum,0,0,0,0,0,0,4,1,0,3
+IUB,Applied theory,Theory for other areas,0,1,0,0,0,0,3,2,0,2
+IUB,PL,Programming Languages,0,0,0,0,0,0,3,1,0,0
+IUB,Crypto,Cryptography,0,0,0,0,0,0,1,1,3,1
+IUB,Cyber app,Cybersecurity applications,0,1,0,0,0,0,1,3,3,2
+IUB,Security soc.,Social aspects of security,0,1,0,0,3,0,1,1,3,0
+IUB,Par/Dist,Parallel / distributed computing,0,0,0,0,0,0,2,3,0,3
+IUB,HPC,High Performance Computing,0,0,0,0,0,0,1,3,0,3
+IUB,Robotics,Robotics,0,2,0,1,0,0,2,2,0,3
+IUB,Unmanned,Unmanned vehicles,0,1,0,0,0,0,0,3,0,4
+IUB,Micro/nano,Micro/nano/materials,0,0,0,0,0,0,1,3,0,5
+IUB,CPS,Cyber Physical Systems,0,1,0,0,0,0,1,3,0,5
+IUB,Comp eng,Computer Engineering,0,0,0,0,0,0,2,3,0,4
+IUB,HCI,Human Computer interaction,1,0,0,5,2,0,1,2,0,0
