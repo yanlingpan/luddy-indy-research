@@ -3,3 +3,4 @@ shinywidgets
 plotly
 pandas
 scikit-learn
+seaborn
