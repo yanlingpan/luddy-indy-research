@@ -18,8 +18,8 @@ IUI,Polis,The Polis Center,0,0,0,0,6,1,0,3,0,0
 IUB,Cognitive,Cognitive models,0,5,0,1,0,2,2,0,0,0
 IUB,Comp Neuro,Computational neuroscience,0,3,0,0,0,5,2,0,0,0
 IUB,AI Appl,AI Applications,0,5,0,0,0,2,0,2,0,1
-IUB/IUI,"Lib, arch","Library, archives, learning",0,0,0,0,6,0,2,2,0,0
-IUB,Vir her,Virtual Heritage,0,0,0,1,7,0,0,2,0,0
+IUB/IUI,"Lib, arch","Library, archives, learning",0,0,0,2,6,0,1,1,0,0
+IUB,Vir her,Virtual Heritage,1,0,0,1,7,0,0,1,0,0
 IUB,Network,"Network Science, information dissemination",0,0,0,0,4,0,3,2,0,1
 IUB,Biomed ,Biomedical imaging,3,0,0,0,0,5,0,0,0,2
 IUB,Algo,Algorithms,0,0,0,0,0,0,10,0,0,0
