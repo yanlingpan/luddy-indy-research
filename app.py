@@ -1,7 +1,7 @@
 
 from shiny import App, ui, render, reactive
 from plotly.callbacks import Points
-from shinywidgets import output_widget, render_plotly
+from shinywidgets import output_widget, render_plotly, render_widget
 
 import random
 import pandas as pd
@@ -16,7 +16,7 @@ import os
 df = pd.read_csv(Path("area2category_score_campus.csv"), index_col=["campus", "area_shortname", "area"])
 df_norm = df.div(df.sum(axis=1), axis=0)
 df['category'] = df.idxmax(axis=1)
-df['size'] = 60 # bubble size
+df['size'] = 80 # bubble size
 df = df.reset_index()
 df['area_campus'] = df['area_shortname'] + "<br>(" + df['campus'] + ")"
 
@@ -69,7 +69,19 @@ app_ui = ui.page_fluid(
         height: 60vw !important;
         width: 70vw !important;
         max-height: 100vh !important;
-      }
+        }
+        /* Disable pointer cursor on legend items */
+        .legend .traces .legendtoggle {
+          cursor: default !important;
+        }
+        /* Alternative selector that might be needed */
+        g.legend g.traces g.legendtoggle {
+          cursor: default !important;
+        }
+        /* More specific selector for plotly legend */
+        .plotly .legend .traces .legendtoggle {
+          cursor: default !important;
+        }
     """),
     ui.div(
         ui.div(output_widget("bubble"), class_="plot-area"),
@@ -83,20 +95,17 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
   click_reactive = reactive.value()
   
-  @render_plotly
-  # @render_widget
+  @render_widget
   def bubble():
-    # import plotly.express as px
     import plotly.graph_objects as go
     # colors = ["blue", "green", "red", "orange", "purple", "gray", "brown", ]
     colors = sns.color_palette("tab10", n_colors=10).as_hex()
     cat2color_dict = dict(zip(embedding_df["category"].unique(), colors))
     categories = sorted(embedding_df["category"].unique())
     embedding_df["category_color"] = embedding_df["category"].map(cat2color_dict)
-    # text_colors = embedding_df["campus"].map(dict(zip(embedding_df["campus"].unique(), ['red', 'blue'])))
     hover_text = embedding_df["area"]
 
-    fig = go.FigureWidget( #FigureWidget
+    fig = go.FigureWidget(
       go.Scatter(
         x=embedding_df["x"],
         y=embedding_df["y"],
@@ -107,7 +116,6 @@ def server(input, output, session):
             sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
             opacity=0.1,
             color=embedding_df["category_color"],
-            # category_orders={"category": sorted(embedding_df["category"].unique())},
         ),
         text=embedding_df["area_campus"],
         hovertext=hover_text,
@@ -115,7 +123,9 @@ def server(input, output, session):
         showlegend=False,
         customdata=embedding_df[["area", "category"]].values,
       )
-    )
+    ) #FigureWidget
+
+    # Add invisible traces for legend entries
     for cat in categories:
         fig.add_trace(
             go.Scatter(
@@ -143,28 +153,29 @@ def server(input, output, session):
         title=dict(
             text="click bubble to see PIs",
             font={"size": 12, "color": "darkslategray"},
-            x=0,  # Center the title
-            xanchor="left"
+            x=0, xanchor="left",
+            y=0.98, yanchor="top",
         ), 
         legend=dict(
           orientation="h",
-          y=1.0, yanchor="bottom",
-          x=0.5, xanchor="center",
+          x=1, xanchor="right", xref="paper",
+          y=0.96, yanchor="top", yref="container",
           bgcolor="rgba(0,0,0,0)", # Transparent background
-          # bordercolor="Black", borderwidth=1
           entrywidthmode='fraction', entrywidth=.2,
+          itemclick=False, itemdoubleclick=False, # disable legend interactivity
+          font=dict(color="darkslategray"),
         ),
         legend_title_text="",
-        # margin=dict(l=0, r=0, t=50, b=0),
     )
 
     fig.data[0].on_click(on_point_click)
-    
     return fig
     
   def on_point_click(trace, points, state): 
     idx = points.point_inds[0]
-    area = embedding_df.iloc[idx]["area"]
+    # Use customdata to get the area information, which is more reliable
+    # since we stored [area, category] in customdata for each point
+    area = trace.customdata[idx][0]  # area is the first element in customdata
     pis = area2pis_dict.get(area, [])
     pis = sorted(pis)
     # Each PI line: <a href="URL" target="_blank" title="URL">PI NAME</a><br>
