@@ -79,40 +79,44 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
   click_reactive = reactive.value()
-  
+
   @render_plotly
   def bubble():
+    # import plotly.express as px
     import plotly.graph_objects as go
-    
-    colors = ["blue", "green", "red", "orange", "purple", "gray", "brown"]
+    # colors = ["blue", "green", "red", "orange", "purple", "gray", "brown", ]
     colors = sns.color_palette("tab10", n_colors=10).as_hex()
-    marker_colors = embedding_df["category"].map(dict(zip(embedding_df["category"].unique(), colors)))
+    cat2color_dict = dict(zip(embedding_df["category"].unique(), colors))
+    categories = sorted(embedding_df["category"].unique())
     hover_text = embedding_df["area"]
-    
-    fig = go.FigureWidget( #FigureWidget
-      go.Scatter(
-        x=embedding_df["x"],
-        y=embedding_df["y"],
-        mode="markers+text",
-        marker=dict(
-            size=embedding_df["size"],
-            sizemode='area',
-            sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
-            opacity=0.1,#0.05,
-            color=marker_colors
-        ),
-        # text=embedding_df["area_shortname"],
-        text=embedding_df["area_campus"],
-        hovertext=hover_text,
-        hoverinfo="text",
-        showlegend=False,
-        customdata=embedding_df[["area", "category"]].values,
-      )
-    )
 
+    fig = go.FigureWidget() #FigureWidget
+    for cat in categories:
+      c = cat2color_dict[cat]
+      curr_cat_df= embedding_df[embedding_df["category"] == cat]
+      fig.add_trace(
+          go.Scatter(
+              x=curr_cat_df["x"],
+              y=curr_cat_df["y"],
+              mode="markers+text",
+              marker=dict(
+                  size=curr_cat_df["size"],
+                  sizemode='area',
+                  sizeref=2.*max(curr_cat_df["size"])/(100.**2),  # scale size_max=60
+                  opacity=0.1,
+                  color=c,
+              ),
+              text=curr_cat_df["area_campus"],
+              hovertext=hover_text,
+              hoverinfo="text",  # Only show hovertext
+              showlegend=True,
+              customdata=curr_cat_df[["area", "category"]].values,
+              name=cat,
+          )
+      )
+    # end for
     fig.update_layout(
         autosize=True,
-        # width=800, height=800, ## comment out for auto height
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, visible=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, visible=False),
@@ -121,17 +125,24 @@ def server(input, output, session):
             bordercolor="rgba(255,255,255,0.)",
             font=dict(color="darkslategray"),
         ),
-        title={
-            "text": "click bubble to see PIs",
-            "font": {"size": 12, "color": "darkslategray"},
-            "x": 0,  # Center the title
-            "xanchor": "left"
-        }, 
-        margin=dict(l=0, r=0, t=50, b=0),
+        title=dict(
+            text="click bubble to see PIs",
+            font={"size": 12, "color": "darkslategray"},
+            x=0, xanchor="left",
+            y=0.98, yanchor="top",
+        ), 
+        legend=dict(
+          orientation="h",
+          x=1, xanchor="right", xref="paper",
+          y=0.96, yanchor="top", yref="container",
+          bgcolor="rgba(0,0,0,0)", # Transparent background
+          # bordercolor="Black", borderwidth=1
+          entrywidthmode='fraction', entrywidth=.2,
+        ),
+        legend_title_text="",
+        # margin=dict(l=0, r=0, t=50, b=0),
     )
-    
     fig.data[0].on_click(on_point_click)
-    
     return fig
     
   def on_point_click(trace, points, state): 
