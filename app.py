@@ -10,13 +10,6 @@ from pathlib import Path
 from collections import defaultdict 
 from sklearn.manifold import MDS
 import os
-# print("test")
-# print(os.getcwd()) #os.getcwd()
-# # exit()
-# os.chdir("/Users/giraffecolor/Documents/code/obsidian/luddy/shiny")
-# os.chdir("C:/Users/panyanl/Documents/luddy/shiny")
-# print(os.getcwd())
-
 
 # bubble plot data
 # df = pd.read_csv(Path("area2category_score_iui.csv"), index_col=["campus", "area_shortname", "area"])
@@ -97,7 +90,9 @@ def server(input, output, session):
     import plotly.graph_objects as go
     # colors = ["blue", "green", "red", "orange", "purple", "gray", "brown", ]
     colors = sns.color_palette("tab10", n_colors=10).as_hex()
-    marker_colors = embedding_df["category"].map(dict(zip(embedding_df["category"].unique(), colors)))
+    cat2color_dict = dict(zip(embedding_df["category"].unique(), colors))
+    categories = sorted(embedding_df["category"].unique())
+    embedding_df["category_color"] = embedding_df["category"].map(cat2color_dict)
     # text_colors = embedding_df["campus"].map(dict(zip(embedding_df["campus"].unique(), ['red', 'blue'])))
     hover_text = embedding_df["area"]
 
@@ -111,19 +106,28 @@ def server(input, output, session):
             sizemode='area',
             sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
             opacity=0.1,
-            color=marker_colors,
+            color=embedding_df["category_color"],
             # category_orders={"category": sorted(embedding_df["category"].unique())},
         ),
         text=embedding_df["area_campus"],
-        # textfont=dict(color=text_colors), 
-        # textposition="top center",   # or "none" to disable
         hovertext=hover_text,
         hoverinfo="text",  # Only show hovertext
-        showlegend=True,
+        showlegend=False,
         customdata=embedding_df[["area", "category"]].values,
       )
     )
-
+    for cat in categories:
+        fig.add_trace(
+            go.Scatter(
+                x=[None], y=[None],  # No actual data points
+                mode="markers",
+                marker=dict(color=cat2color_dict[cat], 
+                            opacity=0.1,
+                            size=10),
+                name=cat,
+                showlegend=True,
+            )
+        )
     fig.update_layout(
         autosize=True,
         # width=800, height=800, ## comment out for auto height
