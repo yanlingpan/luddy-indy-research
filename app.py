@@ -1,5 +1,6 @@
 
 from shiny import App, ui, render, reactive
+# from plotly.callbacks import Points
 from shinywidgets import output_widget, render_plotly
 
 import random
@@ -8,6 +9,14 @@ import seaborn as sns
 from pathlib import Path
 from collections import defaultdict 
 from sklearn.manifold import MDS
+import os
+# print("test")
+print(os.getcwd()) #os.getcwd()
+# # exit()
+os.chdir("/Users/giraffecolor/Documents/code/obsidian/luddy/shiny")
+# os.chdir("C:/Users/panyanl/Documents/luddy/shiny")
+print(os.getcwd())
+
 
 # bubble plot data
 # df = pd.read_csv(Path("area2category_score_iui.csv"), index_col=["campus", "area_shortname", "area"])
@@ -24,7 +33,7 @@ print(f"mds random seed: {mds_seed}")
 embedding = MDS(n_components=2, n_init=4, random_state=mds_seed).fit_transform(df_norm)
 embedding_df = pd.DataFrame(embedding, columns=["x", "y"])
 embedding_df = (embedding_df-embedding_df.min())/(embedding_df.max()-embedding_df.min())
-embedding_df = pd.concat([embedding_df, df[['area_campus', 'area', 'area_shortname', 'category', 'size']]], axis=1)
+embedding_df = pd.concat([embedding_df, df[["area_campus", "campus", 'area', 'area_shortname', 'category', 'size']]], axis=1)
 
 # extra info: area pis & links
 area2pi2url = pd.read_csv(Path("area2pi2url.csv"))
@@ -33,6 +42,7 @@ for area in area2pi2url['area'].unique():
   area2pis_dict[area] = area2pi2url[area2pi2url['area'] == area]['pi'].tolist()
 pi2url_df = area2pi2url[['pi', 'url']].drop_duplicates()
 pi2url_dict = pi2url_df.set_index('pi')['url'].to_dict()
+
 
 app_ui = ui.page_fluid(
     ui.tags.style("""
@@ -79,8 +89,9 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
   click_reactive = reactive.value()
-
+  
   @render_plotly
+  # @render_widget
   def bubble():
     # import plotly.express as px
     import plotly.graph_objects as go
@@ -88,35 +99,49 @@ def server(input, output, session):
     colors = sns.color_palette("tab10", n_colors=10).as_hex()
     cat2color_dict = dict(zip(embedding_df["category"].unique(), colors))
     categories = sorted(embedding_df["category"].unique())
+    embedding_df["category_color"] = embedding_df["category"].map(cat2color_dict)
+    # text_colors = embedding_df["campus"].map(dict(zip(embedding_df["campus"].unique(), ['red', 'blue'])))
     hover_text = embedding_df["area"]
 
-    fig = go.FigureWidget() #FigureWidget
-    for cat in categories:
-      c = cat2color_dict[cat]
-      curr_cat_df= embedding_df[embedding_df["category"] == cat]
-      fig.add_trace(
-          go.Scatter(
-              x=curr_cat_df["x"],
-              y=curr_cat_df["y"],
-              mode="markers+text",
-              marker=dict(
-                  size=curr_cat_df["size"],
-                  sizemode='area',
-                  sizeref=2.*max(curr_cat_df["size"])/(100.**2),  # scale size_max=60
-                  opacity=0.1,
-                  color=c,
-              ),
-              text=curr_cat_df["area_campus"],
-              hovertext=hover_text,
-              hoverinfo="text",  # Only show hovertext
-              showlegend=True,
-              customdata=curr_cat_df[["area", "category"]].values,
-              name=cat,
-          )
+    fig = go.FigureWidget( #FigureWidget
+      go.Scatter(
+        x=embedding_df["x"],
+        y=embedding_df["y"],
+        mode="markers+text",
+        marker=dict(
+            size=embedding_df["size"],
+            sizemode='area',
+            sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
+            opacity=0.1,
+            color=embedding_df["category_color"],
+        ),
+        text=embedding_df["area_campus"],
+        # textfont=dict(color=text_colors), 
+        # textposition="top center",   # or "none" to disable
+        hovertext=hover_text,
+        hoverinfo="text",
+        showlegend=False,
+        customdata=embedding_df[["area", "category"]].values,
       )
-    # end for
+    )
+    # Add invisible traces for legend entries
+    for cat in categories:
+      fig.add_trace(
+        go.Scatter(
+          x=[None], y=[None],  # No actual data points
+          mode="markers",
+          marker=dict(color=cat2color_dict[cat], 
+                      opacity=0.1,
+                      size=10),
+          name=cat,
+          showlegend=True,
+        )
+      )
+
     fig.update_layout(
         autosize=True,
+        # width=800, height=800, ## comment out for auto height
+        # width=None, height=None, ## comment out for auto height
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, visible=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, visible=False),
@@ -128,21 +153,22 @@ def server(input, output, session):
         title=dict(
             text="click bubble to see PIs",
             font={"size": 12, "color": "darkslategray"},
-            x=0, xanchor="left",
-            y=0.98, yanchor="top",
+            x=0,  # Center the title
+            xanchor="left"
         ), 
         legend=dict(
           orientation="h",
-          x=1, xanchor="right", xref="paper",
-          y=0.96, yanchor="top", yref="container",
+          y=1.0, yanchor="bottom",
+          x=0.5, xanchor="center",
           bgcolor="rgba(0,0,0,0)", # Transparent background
-          # bordercolor="Black", borderwidth=1
           entrywidthmode='fraction', entrywidth=.2,
         ),
         legend_title_text="",
-        # margin=dict(l=0, r=0, t=50, b=0),
     )
+
     fig.data[0].on_click(on_point_click)
+    print(type(fig.data[0]))
+    
     return fig
     
   def on_point_click(trace, points, state): 
@@ -165,4 +191,5 @@ def server(input, output, session):
     return click_reactive.get()
 
     
+
 app = App(app_ui, server)
