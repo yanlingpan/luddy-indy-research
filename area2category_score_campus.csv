@@ -4,7 +4,7 @@ IUB/IUI,Med. img. CV,Medical imaging & Computer Vision,5,2,0,0,0,3,0,0,0,0
 IUI,AI brain,AI in brain data analytics,1,5,1,0,0,3,0,0,0,0
 IUB/IUI,Bioinfo.,Bioinformatics,0,2,5,0,0,3,0,0,0,0
 IUB/IUI,NLP,Natural language processing,0,6,0,0,0,0,2,2,0,0
-IUI,HCI accessibility,HCI for accessibility,0,0,0,6,2,0,0,2,0,0
+IUI,HCI accessibility,HCI for accessibility,0,0,0,6,3,0,0,1,0,0
 IUI,HCI health,HCI for healthcare,0,0,0,6,0,2,0,2,0,0
 IUI,AI health,AI for healthcare,0,5,0,0,1,1,0,0,0,0
 IUB/IUI,Trusted AI,Trusted AI,0,6,0,0,3,0,0,1,0,0
@@ -13,7 +13,7 @@ IUI,Data infra.,Data infrastructure,0,2,0,0,1,0,0,7,0,0
 IUB/IUI,Education,Education research,0,0,0,0,5,0,3,2,0,0
 IUI,Software,Software engineering,0,0,0,0,0,0,0,8,0,2
 IUI,VRXR,VR for Cognitive Rehabilitation & Social Skill Development & digital media,5,0,0,2,0,2,0,1,0,0
-IUI,INDI,Integrated Nanosystems Development Institute (INDI),0,0,0,0,0,6,0,2,0,2
+IUI,INDI,Integrated Nanosystems Development Institute (INDI),0,0,0,0,0,7,0,0,0,3
 IUI,Polis,The Polis Center,0,0,0,0,6,1,0,3,0,0
 IUB,Cognitive,Cognitive models,0,5,0,1,0,2,2,0,0,0
 IUB,Comp Neuro,Computational neuroscience,0,3,0,0,0,5,2,0,0,0
@@ -24,7 +24,7 @@ IUB,Network,"Network Science, information dissemination",0,0,0,0,4,0,3,2,0,1
 IUB,Biomed ,Biomedical imaging,3,0,0,0,0,5,0,0,0,2
 IUB,Algo,Algorithms,0,0,0,0,0,0,10,0,0,0
 IUB,DS,Big data,0,4,0,0,0,0,2,2,0,2
-IUB,Quantum,Quantum,0,0,0,0,0,0,7,2,0,1
+IUB,Quantum,Quantum,0,1,0,0,0,0,6,2,0,1
 IUB,Applied theory,Theory for other areas,0,0,0,0,0,0,5,3,0,2
 IUB,PL,Programming Languages,0,0,0,0,0,0,7,3,0,0
 IUB/IUI,Crypto,Cryptography,0,0,0,0,0,0,4,0,6,0
@@ -32,9 +32,9 @@ IUB/IUI,Cyber app,Cybersecurity applications,0,0,0,0,0,0,1,3,6,0
 IUB,Security soc.,Social aspects of security,0,0,0,0,3,0,0,1,6,0
 IUB,Par/Dist,Parallel / distributed computing,0,0,0,0,0,0,3,5,0,2
 IUB,HPC,High Performance Computing,0,0,0,0,0,0,1,6,0,3
-IUB,Robotics,Robotics,0,3,0,0,0,0,1,1,0,5
-IUB,Unmanned,Unmanned vehicles,0,3,0,0,0,0,0,3,0,5
+IUB,Robotics,Robotics,0,3,0,0,0,0,2,0,0,5
+IUB,Unmanned,Unmanned vehicles,0,3,0,0,0,0,0,2,0,6
 IUB,Micro/nano,Micro/nano/materials,0,0,0,0,0,1,0,3,0,6
 IUB,CPS,Cyber Physical Systems,0,2,0,0,0,2,0,2,0,4
-IUB,Comp eng,Computer Engineering,0,0,0,0,0,0,3,2,0,5
+IUB,Comp eng,Computer Engineering,0,0,0,0,0,0,2,3,0,5
 IUB,HCI,Human Computer interaction,1,0,0,6,2,0,1,0,0,0
