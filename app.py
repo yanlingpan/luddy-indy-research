@@ -1,6 +1,6 @@
 
 from shiny import App, ui, render, reactive
-# from plotly.callbacks import Points
+from plotly.callbacks import Points
 from shinywidgets import output_widget, render_plotly
 
 import random
@@ -11,11 +11,11 @@ from collections import defaultdict
 from sklearn.manifold import MDS
 import os
 # print("test")
-print(os.getcwd()) #os.getcwd()
+# print(os.getcwd()) #os.getcwd()
 # # exit()
-os.chdir("/Users/giraffecolor/Documents/code/obsidian/luddy/shiny")
+# os.chdir("/Users/giraffecolor/Documents/code/obsidian/luddy/shiny")
 # os.chdir("C:/Users/panyanl/Documents/luddy/shiny")
-print(os.getcwd())
+# print(os.getcwd())
 
 
 # bubble plot data
