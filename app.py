@@ -97,9 +97,7 @@ def server(input, output, session):
     import plotly.graph_objects as go
     # colors = ["blue", "green", "red", "orange", "purple", "gray", "brown", ]
     colors = sns.color_palette("tab10", n_colors=10).as_hex()
-    cat2color_dict = dict(zip(embedding_df["category"].unique(), colors))
-    categories = sorted(embedding_df["category"].unique())
-    embedding_df["category_color"] = embedding_df["category"].map(cat2color_dict)
+    marker_colors = embedding_df["category"].map(dict(zip(embedding_df["category"].unique(), colors)))
     # text_colors = embedding_df["campus"].map(dict(zip(embedding_df["campus"].unique(), ['red', 'blue'])))
     hover_text = embedding_df["area"]
 
@@ -113,30 +111,18 @@ def server(input, output, session):
             sizemode='area',
             sizeref=2.*max(embedding_df["size"])/(100.**2),  # scale size_max=60
             opacity=0.1,
-            color=embedding_df["category_color"],
+            color=marker_colors,
+            # category_orders={"category": sorted(embedding_df["category"].unique())},
         ),
         text=embedding_df["area_campus"],
         # textfont=dict(color=text_colors), 
         # textposition="top center",   # or "none" to disable
         hovertext=hover_text,
-        hoverinfo="text",
-        showlegend=False,
+        hoverinfo="text",  # Only show hovertext
+        showlegend=True,
         customdata=embedding_df[["area", "category"]].values,
       )
     )
-    # Add invisible traces for legend entries
-    for cat in categories:
-      fig.add_trace(
-        go.Scatter(
-          x=[None], y=[None],  # No actual data points
-          mode="markers",
-          marker=dict(color=cat2color_dict[cat], 
-                      opacity=0.1,
-                      size=10),
-          name=cat,
-          showlegend=True,
-        )
-      )
 
     fig.update_layout(
         autosize=True,
@@ -161,13 +147,14 @@ def server(input, output, session):
           y=1.0, yanchor="bottom",
           x=0.5, xanchor="center",
           bgcolor="rgba(0,0,0,0)", # Transparent background
-          entrywidthmode='fraction', entrywidth=.2,
+          # bordercolor="Black", borderwidth=1
+          entrywidthmode='fraction', entrywidth=.3,
         ),
         legend_title_text="",
+        # margin=dict(l=0, r=0, t=50, b=0),
     )
 
     fig.data[0].on_click(on_point_click)
-    print(type(fig.data[0]))
     
     return fig
     
@@ -193,3 +180,4 @@ def server(input, output, session):
     
 
 app = App(app_ui, server)
+
