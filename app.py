@@ -152,7 +152,7 @@ def server(input, output, session):
           x=0.5, xanchor="center",
           bgcolor="rgba(0,0,0,0)", # Transparent background
           # bordercolor="Black", borderwidth=1
-          entrywidthmode='fraction', entrywidth=.3,
+          entrywidthmode='fraction', entrywidth=.2,
         ),
         legend_title_text="",
         # margin=dict(l=0, r=0, t=50, b=0),
