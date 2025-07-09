@@ -132,7 +132,7 @@ def server(input, output, session):
                 x=[None], y=[None],  # No actual data points
                 mode="markers",
                 marker=dict(color=cat2color_dict[cat], 
-                            opacity=0.3,
+                            opacity=0.4,
                             size=10),
                 name=cat,
                 showlegend=True,
