@@ -21,8 +21,10 @@ df = df.reset_index()
 df['area_campus'] = df['area_shortname'] + "<br>(" + df['campus'] + ")"
 
 # embed score w/ MDS
-mds_seed = random.randint(0, 10000)
-print(f"mds random seed: {mds_seed}")
+mds_seed = 2971 #4115, 8387, 2971
+print(f"mds seed: {mds_seed}")
+# mds_seed = random.randint(0, 10000)
+# print(f"mds random seed: {mds_seed}")
 embedding = MDS(n_components=2, n_init=4, random_state=mds_seed).fit_transform(df_norm)
 embedding_df = pd.DataFrame(embedding, columns=["x", "y"])
 embedding_df = (embedding_df-embedding_df.min())/(embedding_df.max()-embedding_df.min())
